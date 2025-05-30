@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de QR Code</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      width: 250px;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #4facfe;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    button:hover {
+      background-color: #00f2fe;
+    }
+
+    #qrcode {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    #baixarBtn {
+      display: none; /* Esconde o botão de baixar inicialmente */
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Gerador de QR Code</h1>
+
+  <input type="text" id="texto" placeholder="Digite um texto ou URL">
+  <button onclick="gerarQRCode()">Gerar QR Code</button>
+  <button id="baixarBtn" onclick="baixarQRCode()">Baixar QR Code</button>
+
+  <div id="qrcode"></div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+  <script>
+    const qrCode = new QRCodeStyling({
+      width: 300,
+      height: 300,
+      margin: 20,
+      dotsOptions: {
+        color: "#000000",
+        type: "rounded"
+      },
+      backgroundOptions: {
+        color: "#ffffff"
+      },
+      imageOptions: {
+        crossOrigin: "anonymous",
+        margin: 10
+      }
+    });
+
+    function gerarQRCode() {
+      const texto = document.getElementById("texto").value;
+      if (!texto) {
+        alert("Por favor, digite um texto ou URL.");
+        return;
+      }
+      qrCode.update({
+        data: texto
+      });
+      qrCode.append(document.getElementById("qrcode"));
+
+      // Mostra o botão de baixar
+      document.getElementById("baixarBtn").style.display = "inline-block";
+    }
+
+    function baixarQRCode() {
+      qrCode.download({ name: "qrcode", extension: "png" });
+    }
+  </script>
+</body>
+</html>
